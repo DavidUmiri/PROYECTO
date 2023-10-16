@@ -1,0 +1,7 @@
+QUASAR FRAMEWORK
+
+- Instalación
+sudo npm install -g @quasar/cli
+npm init quasar
+cd nombre-proyecto
+quasar dev

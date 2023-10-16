@@ -1,0 +1,13 @@
+body {
+  background-color: skyblue;
+  display: flex;
+  justify-content: center;
+}
+
+.caja_principal {
+  background-color: white;
+  width: 300px;
+  height: 300px;
+  padding: 10%;
+  text-align: center;
+}

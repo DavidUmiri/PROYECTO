@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO LIST</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="caja_principal">
+      <h1>Lista de Tareas</h1>
+      <input
+        class="nueva_tarea"
+        type="text"
+        placeholder="Agregar tarea..."
+        autofocus
+      />
+      <input class="añadir" type="submit" value="+" onclick="agregarTarea()" />
+      <div class="tareas_pendientes">
+        <p id="sin_tareas"></p>
+      </div>
+    </div>
+  </body>
+</html>

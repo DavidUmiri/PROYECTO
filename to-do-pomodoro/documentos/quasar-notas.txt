@@ -1,0 +1,7 @@
+Podemos desarrollar:
+SPA (Single page app)
+PWA (Progresive web app)
+BEX (Browser extension)
+SSR (Server-side rendered app)
+Aplicaciones híbridas (Android && IOs) con Cordova o Capacitor
+Aplicaciones multiplataformas (Mac, Windows, Linux) con Electron
