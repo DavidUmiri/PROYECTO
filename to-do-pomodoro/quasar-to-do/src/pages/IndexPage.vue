@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, shallowReactive } from "vue";
 
 export default defineComponent({
   name: "IndexPage",
@@ -93,11 +93,20 @@ export default defineComponent({
         });
     },
     addTask() {
-      this.tasks.push({
+      // Si la tarea no esta vacia la añadimos
+      // trim() elimina los espacios en blanco del principio y del final
+      if(this.newTask.trim() != '') {
+        console.log(this.newTask);
+        this.tasks.push({
         title: this.newTask,
         done: false,
       });
       this.newTask = "";
+      } 
+      // Si esta vacia mandamos mensaje
+      else { 
+        this.$q.notify("La tarea está vacía")
+      }
     },
   },
 });
