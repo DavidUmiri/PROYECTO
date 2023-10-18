@@ -1,4 +1,0 @@
-- Añadir tarea.
-- Marcar tarea hecha.
-- Eliminar tarea.
-- Si la tarea está vacía hay que informárselo al usuario.

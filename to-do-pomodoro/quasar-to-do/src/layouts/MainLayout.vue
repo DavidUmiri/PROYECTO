@@ -11,25 +11,18 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>
-          To Do
+        <q-toolbar-title class="text-center">
+          Pomodoro & To Do
         </q-toolbar-title>
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <!-- show-if-above para mostrar la barra lateral en pantalla grande -->
+    <q-drawer v-model="leftDrawerOpen" bordered>
       <q-list>
-        <q-item-label
-          header
-        >
-         David Umiri 
-        </q-item-label>
+        <q-item-label header> David Umiri </q-item-label>
 
         <EssentialLink
           v-for="link in essentialLinks"
@@ -46,40 +39,40 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { defineComponent, ref } from "vue";
+import EssentialLink from "components/EssentialLink.vue";
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: "Docs",
+    caption: "quasar.dev",
+    icon: "school",
+    link: "https://quasar.dev",
   },
   {
-    title: 'Github',
-    caption: 'github.com/DavidUmiri',
-    icon: 'code',
-    link: 'https://github.com/DavidUmiri'
+    title: "Github",
+    caption: "github.com/DavidUmiri",
+    icon: "code",
+    link: "https://github.com/DavidUmiri",
   },
   {
-    title: 'Instagram',
-    caption: 'david_umiri',
-    icon: 'instagram',
-    link: 'https:/instagram.com/david_umiri'
+    title: "Instagram",
+    caption: "david_umiri",
+    icon: "instagram",
+    link: "https:/instagram.com/david_umiri",
   },
   {
-    title: 'Twitter',
-    caption: '@david_umiri',
-    icon: 'rss_feed',
-    link: 'https://twitter.com/david_umiri'
+    title: "Twitter",
+    caption: "@david_umiri",
+    icon: "rss_feed",
+    link: "https://twitter.com/david_umiri",
   },
   {
-    title: 'Facebook',
-    caption: 'David Umiri',
-    icon: 'facebook',
-    link: 'https://www.facebook.com/david.umiricondo.7'
-  }
+    title: "Facebook",
+    caption: "David Umiri",
+    icon: "facebook",
+    link: "https://www.facebook.com/david.umiricondo.7",
+  },
   // ,
   // {
   //   title: 'Quasar Awesome',
@@ -87,25 +80,25 @@ const linksList = [
   //   icon: 'favorite',
   //   link: 'https://awesome.quasar.dev'
   // }
-]
+];
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: "MainLayout",
 
   components: {
-    EssentialLink
+    EssentialLink,
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+  setup() {
+    const leftDrawerOpen = ref(false);
 
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+    };
+  },
+});
 </script>
