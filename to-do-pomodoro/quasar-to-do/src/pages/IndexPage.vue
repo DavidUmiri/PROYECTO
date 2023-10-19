@@ -229,9 +229,14 @@ body {
   flex-direction: row;
   justify-content: center;
   gap: 15%;
+  margin-top: 20%;
 }
 
 .button-container .action-button {
   margin: 5%;
+}
+.no-tasks {
+  text-align: center;
+  margin-top: 25%;
 }
 </style>
