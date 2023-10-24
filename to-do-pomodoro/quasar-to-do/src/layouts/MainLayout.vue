@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="bg-red">
       <q-toolbar>
         <q-btn
           flat
@@ -37,6 +37,12 @@
     </q-page-container>
   </q-layout>
 </template>
+
+<style lang="scss">
+q-layout {
+  background-color: red;
+}
+</style>
 
 <script>
 import { defineComponent, ref } from "vue";

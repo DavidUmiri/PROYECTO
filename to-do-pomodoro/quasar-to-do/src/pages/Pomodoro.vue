@@ -1,32 +1,3 @@
-<template>
-  <div class="pomodoro-box">
-    <div class="info-container">
-      <div class="info-item">Pomodoro: {{ pomodoros }}</div>
-      <div class="info-item">Descansos cortos: {{ descansosCortos }}</div>
-      <div class="info-item">Descansos largos: {{ descansosLargos }}</div>
-    </div>
-    <div class="circle-container">
-      <h1 class="circle-label">{{ formatoTiempo(temporizador) }}</h1>
-    </div>
-    <div class="button-container">
-      <q-btn
-        @click="alternarTemporizador"
-        color="primary"
-        :icon="intervaloTemporizador ? 'pause' : 'play_arrow'"
-        class="action-button"
-        rounded
-      />
-      <q-btn
-        @click="resetearTemporizador"
-        color="primary"
-        icon="replay"
-        class="action-button"
-        rounded
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import { defineComponent } from "vue";
 
@@ -108,6 +79,35 @@ export default defineComponent({
 });
 </script>
 
+<template>
+  <div class="pomodoro-box">
+    <div class="info-container">
+      <div class="info-item">Pomodoro: {{ pomodoros }}</div>
+      <div class="info-item">Descansos cortos: {{ descansosCortos }}</div>
+      <div class="info-item">Descansos largos: {{ descansosLargos }}</div>
+    </div>
+    <div class="circle-container">
+      <h1 class="circle-label">{{ formatoTiempo(temporizador) }}</h1>
+    </div>
+    <div class="button-container">
+      <q-btn
+        @click="alternarTemporizador"
+        color="black"
+        :icon="intervaloTemporizador ? 'pause' : 'play_arrow'"
+        class="action-button"
+        rounded
+      />
+      <q-btn
+        @click="resetearTemporizador"
+        color="black"
+        icon="replay"
+        class="action-button"
+        rounded
+      />
+    </div>
+  </div>
+</template>
+
 <style lang="scss">
 html,
 body {
@@ -116,7 +116,7 @@ body {
 }
 
 .pomodoro-box {
-  background-color: lightblue;
+  background-color: $principal;
   width: 100%;
   text-align: center;
   height: 90vh;
@@ -133,5 +133,4 @@ body {
 .button-container .action-button {
   margin: 5%;
 }
-
 </style>

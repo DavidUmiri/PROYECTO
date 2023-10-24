@@ -1,10 +1,3 @@
-<template>
-  <div class="app-container">
-    <PomodoroComponente />
-    <ToDoComponente />
-  </div>
-</template>
-
 <script>
 import PomodoroComponente from "./Pomodoro.vue";
 import ToDoComponente from "./ToDo.vue";
@@ -16,6 +9,12 @@ export default {
   },
 };
 </script>
+<template>
+  <div class="app-container">
+    <PomodoroComponente />
+    <ToDoComponente />
+  </div>
+</template>
 
 <style lang="scss">
 html,
