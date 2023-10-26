@@ -14,7 +14,7 @@ Eliminamos la carpeta de node_modules
 npm install
 
 - Para Android Studio
-quasar dev -m cordova-T android
+quasar dev -m cordova -T android
 
 - Para IOS
 quasar dev -m cordova -T ios
