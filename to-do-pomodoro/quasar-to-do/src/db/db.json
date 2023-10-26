@@ -1,14 +1,9 @@
 {
   "tareas": [
     {
-      "titulo": "Nueva tarea",
+      "titulo": "Cocinar ",
       "hecha": true,
-      "id": 1
-    },
-    {
-      "titulo": "Limpiar la casa",
-      "hecha": true,
-      "id": 2
+      "id": 3
     }
   ]
 }

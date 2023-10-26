@@ -1,4 +1,70 @@
+<template>
+  <!-- Contenedor principal de la lista de tareas -->
+  <div class="todo-box">
+    <!-- Contenedor para añadir nueva tarea -->
+    <div class="add-task-container">
+      <!-- Entrada de texto para nueva tarea -->
+      <q-input
+        v-model="nuevaTarea"
+        @keyup.enter="agregarTarea"
+        class="add-task-input"
+        square
+        filled
+        placeholder="Añadir tarea"
+        dense
+      >
+        <!-- Botón para agregar tarea -->
+        <template v-slot:append>
+          <q-btn @click="agregarTarea" round dense flat icon="add" />
+        </template>
+      </q-input>
+    </div>
+
+    <!-- Lista de tareas -->
+    <div class="task-list">
+      <q-list separator bordered>
+        <!-- Iterar sobre las tareas -->
+        <q-item v-for="(tarea, indice) in tareas" :key="indice" v-ripple>
+          <!-- Sección para el checkbox de tarea -->
+          <q-item-section avatar @click="alternarTarea(tarea)">
+            <q-checkbox v-model="tarea.hecha" color="red" />
+          </q-item-section>
+          <!-- Sección para el título de la tarea -->
+          <q-item-section @click="alternarTarea(tarea)">
+            <q-item-label :class="{ hecha: tarea.hecha }">{{
+              tarea.titulo
+            }}</q-item-label>
+          </q-item-section>
+          <!-- Sección para el botón de eliminar tarea (si está hecha) -->
+          <q-item-section v-if="tarea.hecha" side>
+            <q-btn
+              @click.stop="eliminarTarea(tarea.id)"
+              flat
+              round
+              dense
+              color="red"
+              icon="delete"
+            />
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </div>
+
+    <!-- Mensaje si no hay tareas -->
+    <div v-if="!tareas.length" class="no-tasks">
+      <q-icon
+        name="check"
+        size="100px"
+        color="$principal"
+        class="no-tasks-icon"
+      />
+      <div class="no-tasks-message">No hay tareas</div>
+    </div>
+  </div>
+</template>
+
 <script>
+// Importar funciones y dependencias necesarias
 import { ref } from "vue";
 import axios from "axios";
 import {
@@ -12,9 +78,11 @@ export default {
   name: "ToDoComponente",
 
   setup() {
-    const nuevaTarea = ref("");
-    const tareas = ref([]);
+    // Declarar variables reactivas y funciones
+    const nuevaTarea = ref(""); // Variable para la nueva tarea
+    const tareas = ref([]); // Variable para almacenar las tareas
 
+    // Función para eliminar una tarea
     const eliminarTarea = (tareaId) => {
       if (window.confirm("¿Estás seguro/a?")) {
         deleteTarea(tareaId)
@@ -28,6 +96,7 @@ export default {
       }
     };
 
+    // Función para agregar una tarea
     const agregarTarea = () => {
       if (nuevaTarea.value.trim() !== "") {
         postTarea({
@@ -46,6 +115,7 @@ export default {
       }
     };
 
+    // Función para alternar el estado de una tarea (completada/no completada)
     const alternarTarea = (tarea) => {
       const nuevaTarea = { ...tarea, hecha: !tarea.hecha };
       updateTarea(nuevaTarea)
@@ -57,6 +127,7 @@ export default {
         });
     };
 
+    // Obtener las tareas al cargar el componente
     getTareas()
       .then((response) => {
         tareas.value = response.data;
@@ -76,61 +147,6 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="todo-box">
-    <div class="add-task-container">
-      <q-input
-        v-model="nuevaTarea"
-        @keyup.enter="agregarTarea"
-        class="add-task-input"
-        square
-        filled
-        placeholder="Añadir tarea"
-        dense
-      >
-        <template v-slot:append>
-          <q-btn @click="agregarTarea" round dense flat icon="add" />
-        </template>
-      </q-input>
-    </div>
-
-    <div class="task-list">
-      <q-list separator bordered>
-        <q-item v-for="(tarea, indice) in tareas" :key="indice" v-ripple>
-          <q-item-section avatar @click="alternarTarea(tarea)">
-            <q-checkbox v-model="tarea.hecha" color="red" />
-          </q-item-section>
-          <q-item-section @click="alternarTarea(tarea)">
-            <q-item-label :class="{ hecha: tarea.hecha }">{{
-              tarea.titulo
-            }}</q-item-label>
-          </q-item-section>
-          <q-item-section v-if="tarea.hecha" side>
-            <q-btn
-              @click.stop="eliminarTarea(tarea.id)"
-              flat
-              round
-              dense
-              color="red"
-              icon="delete"
-            />
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </div>
-
-    <div v-if="!tareas.length" class="no-tasks">
-      <q-icon
-        name="check"
-        size="100px"
-        color="$principal"
-        class="no-tasks-icon"
-      />
-      <div class="no-tasks-message">No hay tareas</div>
-    </div>
-  </div>
-</template>
 
 <style lang="scss">
 html,
