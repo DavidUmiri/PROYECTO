@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-red">
+    <q-header elevated class="bg-green">
       <q-toolbar>
         <q-btn
           flat
@@ -39,9 +39,7 @@
 </template>
 
 <style lang="scss">
-q-layout {
-  background-color: red;
-}
+
 </style>
 
 <script>

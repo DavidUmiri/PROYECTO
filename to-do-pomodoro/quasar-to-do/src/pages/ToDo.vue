@@ -64,39 +64,65 @@
 </template>
 
 <script>
-// Importar funciones y dependencias necesarias
 import { ref } from "vue";
-import axios from "axios";
 import {
   getTareas,
   postTarea,
   deleteTarea,
   updateTarea,
 } from "../db/jsonServer";
+import { useQuasar } from "quasar";
 
 export default {
   name: "ToDoComponente",
 
   setup() {
-    // Declarar variables reactivas y funciones
-    const nuevaTarea = ref(""); // Variable para la nueva tarea
-    const tareas = ref([]); // Variable para almacenar las tareas
+    const nuevaTarea = ref("");
+    const tareas = ref([]);
+    const $q = useQuasar();
 
-    // Función para eliminar una tarea
+    getTareas()
+      .then((response) => {
+        tareas.value = response.data;
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     const eliminarTarea = (tareaId) => {
-      if (window.confirm("¿Estás seguro/a?")) {
-        deleteTarea(tareaId)
-          .then(() => {
-            tareas.value = tareas.value.filter((t) => t.id !== tareaId);
-            console.log("Tarea eliminada");
-          })
-          .catch((error) => {
-            console.error(error);
+      $q.dialog({
+        title: "Confirmar",
+        message: "¿Estás seguro/a de eliminar esta tarea?",
+        cancel: true,
+        persistent: true,
+      })
+        .onOk(() => {
+          deleteTarea(tareaId)
+            .then(() => {
+              tareas.value = tareas.value.filter((t) => t.id !== tareaId);
+              $q.notify({
+                message: "Tarea eliminada correctamente",
+                color: "$pos",
+              });
+              console.log("Tarea eliminada");
+            })
+            .catch((error) => {
+              console.error(error);
+              $q.notify({
+                message: "Error al eliminar la tarea",
+                color: "$neg",
+              });
+            });
+        })
+        .onCancel(() => {
+          $q.notify({
+            message: "Operación cancelada",
+            color: "$neg",
           });
-      }
+        });
     };
 
-    // Función para agregar una tarea
     const agregarTarea = () => {
       if (nuevaTarea.value.trim() !== "") {
         postTarea({
@@ -106,36 +132,45 @@ export default {
           .then((response) => {
             tareas.value.push(response.data);
             nuevaTarea.value = "";
+            $q.notify({
+              message: "Tarea agregada correctamente",
+              color: "$pos",
+            });
           })
           .catch((error) => {
             console.error(error);
+            $q.notify({
+              message: "Error al agregar la tarea",
+              color: "$neg",
+            });
           });
       } else {
         console.log("La tarea está vacía");
+        $q.notify({
+          message: "La tarea está vacía",
+          color: "$info",
+        });
       }
     };
 
-    // Función para alternar el estado de una tarea (completada/no completada)
     const alternarTarea = (tarea) => {
       const nuevaTarea = { ...tarea, hecha: !tarea.hecha };
       updateTarea(nuevaTarea)
         .then(() => {
           tarea.hecha = !tarea.hecha;
+          $q.notify({
+            message: `Estado de la tarea "${tarea.titulo}" actualizado`,
+            color: "positive",
+          });
         })
         .catch((error) => {
           console.error(error);
+          $q.notify({
+            message: "Error al actualizar el estado de la tarea",
+            color: "negative",
+          });
         });
     };
-
-    // Obtener las tareas al cargar el componente
-    getTareas()
-      .then((response) => {
-        tareas.value = response.data;
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
 
     return {
       nuevaTarea,
@@ -148,6 +183,7 @@ export default {
 };
 </script>
 
+
 <style lang="scss">
 html,
 body {
@@ -156,7 +192,7 @@ body {
 }
 
 .todo-box {
-  background-color: $principal;
+  background-color: $turquesa;
   width: 100%;
   height: 90vh;
 }

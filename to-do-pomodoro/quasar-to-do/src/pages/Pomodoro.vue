@@ -135,7 +135,7 @@ body {
 }
 
 .pomodoro-box {
-  background-color: $principal;
+  background-color: $turquesa;
   width: 100%;
   text-align: center;
   height: 90vh;
