@@ -1,7 +1,32 @@
 {
   "tareas": [
     {
-      "titulo": "Cocinar",
+      "id": 1,
+      "titulo": "Nueva tarea editada",
+      "hecha": false
+    },
+    {
+      "titulo": "Nueva",
+      "hecha": false,
+      "id": 2
+    },
+    {
+      "titulo": "Hola",
+      "hecha": false,
+      "id": 3
+    },
+    {
+      "id": 4,
+      "titulo": "Holahola",
+      "hecha": false
+    },
+    {
+      "id": 5,
+      "titulo": "Nueva 2",
+      "hecha": false
+    },
+    {
+      "titulo": "Nueva",
       "hecha": false,
       "id": 6
     }

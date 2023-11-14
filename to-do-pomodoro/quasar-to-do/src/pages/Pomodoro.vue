@@ -63,7 +63,7 @@ export default defineComponent({
     // Función para alternar el temporizador entre iniciar y detener
     alternarTemporizador() {
       if (this.intervaloTemporizador) {
-        clearInterval(this.intervaloTemporizador); // Detener el temporizador
+        clearInterval(this.intervaloTemporizador);
         this.intervaloTemporizador = null;
       } else {
         this.intervaloTemporizador = setInterval(() => {
@@ -72,10 +72,10 @@ export default defineComponent({
           } else {
             clearInterval(this.intervaloTemporizador);
             this.intervaloTemporizador = null;
-            this.$q.notify("¡Tiempo terminado!"); // Notificar cuando el tiempo termina
-            this.cambiarFase(); // Cambiar a la siguiente fase
+            this.$q.notify("¡Tiempo terminado!");
+            this.cambiarFase();
           }
-        }, 1000); // Actualizar el temporizador cada segundo (1000 milisegundos)
+        }, 1000);
       }
     },
 
@@ -83,10 +83,10 @@ export default defineComponent({
     resetearTemporizador() {
       clearInterval(this.intervaloTemporizador);
       this.intervaloTemporizador = null;
-      this.temporizador = TIEMPO_INICIAL; // Reiniciar el temporizador a 20 minutos
+      this.temporizador = TIEMPO_INICIAL;
     },
 
-    // Función para formatear el tiempo (segundos a "mm:ss")
+    // Función para formatear el tiempo
     formatoTiempo(tiempo) {
       const minutos = Math.floor(tiempo / 60);
       const segundos = tiempo % 60;
@@ -103,21 +103,21 @@ export default defineComponent({
           this.pomodoros++;
           if (this.pomodoros % 4 === 0) {
             this.faseActual = "descansoLargo";
-            this.temporizador = TIEMPO_DESCANSO_LARGO; // Cambiar a 15 minutos para descanso largo
+            this.temporizador = TIEMPO_DESCANSO_LARGO;
           } else {
             this.faseActual = "descansoCorto";
-            this.temporizador = TIEMPO_DESCANSO_CORTO; // Cambiar a 5 minutos para descanso corto
+            this.temporizador = TIEMPO_DESCANSO_CORTO;
           }
           break;
         case "descansoCorto":
           this.descansosCortos++;
           this.faseActual = "pomodoro";
-          this.temporizador = TIEMPO_INICIAL; // Volver a 20 minutos para pomodoro
+          this.temporizador = TIEMPO_INICIAL;
           break;
         case "descansoLargo":
           this.descansosLargos++;
           this.faseActual = "pomodoro";
-          this.temporizador = TIEMPO_INICIAL; // Volver a 20 minutos para pomodoro
+          this.temporizador = TIEMPO_INICIAL;
           break;
         default:
           break;
@@ -135,7 +135,7 @@ body {
 }
 
 .pomodoro-box {
-  background-color: $turquesa;
+  background-color: $azul-claro;
   width: 100%;
   text-align: center;
   height: 90vh;

@@ -1,5 +1,5 @@
 # PROYECTO
-- Quasar
+- Quasar Framework
 
 - Para version Mac
 quasar dev -m electron
