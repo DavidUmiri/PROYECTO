@@ -1,34 +1,14 @@
 {
   "tareas": [
     {
-      "id": 1,
-      "titulo": "Nueva tarea editada",
+      "id": 2,
+      "titulo": "Prueba",
       "hecha": false
     },
     {
-      "titulo": "Nueva",
-      "hecha": false,
-      "id": 2
-    },
-    {
-      "titulo": "Hola",
+      "titulo": "Nuevo",
       "hecha": false,
       "id": 3
-    },
-    {
-      "id": 4,
-      "titulo": "Holahola",
-      "hecha": false
-    },
-    {
-      "id": 5,
-      "titulo": "Nueva 2",
-      "hecha": false
-    },
-    {
-      "titulo": "Nueva",
-      "hecha": false,
-      "id": 6
     }
   ]
 }

@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title class="text-center">
-          Pomodoro & To Do
+          Time To Do
         </q-toolbar-title>
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
@@ -58,24 +58,6 @@ const linksList = [
     caption: "github.com/DavidUmiri",
     icon: "code",
     link: "https://github.com/DavidUmiri",
-  },
-  {
-    title: "Instagram",
-    caption: "david_umiri",
-    icon: "instagram",
-    link: "https:/instagram.com/david_umiri",
-  },
-  {
-    title: "Twitter",
-    caption: "@david_umiri",
-    icon: "rss_feed",
-    link: "https://twitter.com/david_umiri",
-  },
-  {
-    title: "Facebook",
-    caption: "David Umiri",
-    icon: "facebook",
-    link: "https://www.facebook.com/david.umiricondo.7",
   },
   // ,
   // {

@@ -1,9 +1,6 @@
 <template>
-  <!-- Contenedor principal de la lista de tareas -->
   <div class="todo-box">
-    <!-- Contenedor para añadir nueva tarea -->
     <div class="add-task-container">
-      <!-- Entrada de texto para nueva tarea -->
       <q-input
         v-model="nuevaTarea"
         @keyup.enter="agregarTarea"
@@ -14,47 +11,40 @@
         dense
         ref="tareaInput"
       >
-        <!-- Botón para agregar tarea -->
         <template v-slot:append>
           <q-btn @click="agregarTarea" round dense flat icon="add" />
         </template>
       </q-input>
     </div>
 
-    <!-- Lista de tareas -->
     <div class="task-list">
       <q-list separator bordered>
-        <!-- Iterar sobre las tareas -->
         <q-item v-for="(tarea, indice) in tareas" :key="indice" v-ripple>
-          <!-- Sección para el checkbox de tarea -->
           <q-item-section avatar @click="alternarTarea(tarea)">
-            <q-checkbox v-model="tarea.hecha" color="red" />
+            <q-checkbox v-model="tarea.hecha" color="primary" />
           </q-item-section>
-          <!-- Sección para el título de la tarea -->
           <q-item-section @click="alternarTarea(tarea)">
             <q-item-label :class="{ hecha: tarea.hecha }">{{
               tarea.titulo
             }}</q-item-label>
           </q-item-section>
-          <!-- Sección para el botón de eliminar tarea (si está hecha) -->
           <q-item-section v-if="tarea.hecha" side>
             <q-btn
               @click.stop="eliminarTarea(tarea.id)"
               flat
               round
               dense
-              color="red"
+              color="negative"
               icon="delete"
             />
           </q-item-section>
-          <!-- Sección para el botón de editar tarea -->
           <q-item-section side>
             <q-btn
-              @click.stop="editarTarea(tarea)"
+              @click.stop="editarTareaPrompt(tarea)"
               flat
               round
               dense
-              color="black"
+              color="primary"
               icon="edit"
             />
           </q-item-section>
@@ -62,15 +52,15 @@
       </q-list>
     </div>
 
-    <!-- Mensaje si no hay tareas -->
     <div v-if="!tareas.length" class="no-tasks">
-      <q-icon name="check" size="100px" class="no-tasks-icon" />
+      <q-icon name="check" size="100px" class="no-tasks-icon" color="primary" />
       <div class="no-tasks-message">No hay tareas</div>
     </div>
   </div>
 </template>
 
 <script>
+import { useQuasar } from "quasar";
 import { ref, onMounted } from "vue";
 import {
   getTareas,
@@ -78,7 +68,6 @@ import {
   deleteTarea,
   updateTarea,
 } from "../db/jsonServer";
-import { useQuasar } from "quasar";
 
 export default {
   name: "ToDoComponente",
@@ -87,15 +76,12 @@ export default {
     const $q = useQuasar();
     const nuevaTarea = ref("");
     const tareas = ref([]);
-    const edicionTarea = ref(false);
-    const tareaEditando = ref(null);
     const tareaInput = ref(null);
 
     onMounted(() => {
       tareaInput.value && tareaInput.value.focus();
     });
 
-    // Obtener tareas
     getTareas()
       .then((response) => {
         tareas.value = response.data;
@@ -104,53 +90,51 @@ export default {
       .catch((error) => {
         console.error(error);
       });
-    // Fin obtener tareas
 
-    // Agregar tarea
     const agregarTarea = () => {
-      if (edicionTarea.value) {
-        // Lógica para editar tarea
-        editarTareaExistente();
-      } else {
-        // Lógica para agregar nueva tarea
-        agregarNuevaTarea();
-      }
+      agregarNuevaTarea();
     };
 
-    // Editar tarea
-    const editarTareaExistente = () => {
-      if (nuevaTarea.value.trim() !== "") {
-        updateTarea({
-          id: tareaEditando.value.id,
-          titulo: nuevaTarea.value,
-          hecha: tareaEditando.value.hecha,
-        })
-          .then(() => {
-            tareaEditando.value.titulo = nuevaTarea.value;
-            finalizarEdicion();
-            $q.notify({
-              message: "Tarea editada correctamente",
-              color: "green",
-            });
+    const editarTareaPrompt = (tarea) => {
+      $q.dialog({
+        title: "Editar tarea",
+        message: "Introduce el nuevo título de la tarea:",
+        prompt: {
+          model: tarea.titulo,
+          type: "text",
+        },
+        cancel: true,
+        persistent: true,
+      }).onOk((data) => {
+        if (data.trim() !== "") {
+          updateTarea({
+            id: tarea.id,
+            titulo: data.trim(),
+            hecha: tarea.hecha,
           })
-          .catch((error) => {
-            console.error(error);
-            $q.notify({
-              message: "Error al editar la tarea",
-              color: "red",
+            .then(() => {
+              tarea.titulo = data.trim();
+              $q.notify({
+                message: "Tarea editada correctamente",
+                color: "positive",
+              });
+            })
+            .catch((error) => {
+              console.error(error);
+              $q.notify({
+                message: "Error al editar la tarea",
+                color: "negative",
+              });
             });
+        } else {
+          $q.notify({
+            message: "La tarea está vacía",
+            color: "negative",
           });
-      } else {
-        console.log("La tarea está vacía");
-        $q.notify({
-          message: "La tarea está vacía",
-          color: "red",
-        });
-      }
+        }
+      });
     };
-    // Fin editar tarea
 
-    // Agregar tarea
     const agregarNuevaTarea = () => {
       if (nuevaTarea.value.trim() !== "") {
         postTarea({
@@ -162,60 +146,25 @@ export default {
             nuevaTarea.value = "";
             $q.notify({
               message: "Tarea agregada correctamente",
-              color: "green",
+              color: "positive",
             });
           })
           .catch((error) => {
             console.error(error);
             $q.notify({
               message: "Error al agregar la tarea",
-              color: "red",
+              color: "negative",
             });
           });
       } else {
         console.log("La tarea está vacía");
         $q.notify({
           message: "La tarea está vacía",
-          color: "red",
+          color: "negative",
         });
       }
     };
 
-    const finalizarEdicion = () => {
-      edicionTarea.value = false;
-      nuevaTarea.value = "";
-    };
-    // Fin agregar tarea
-
-    // Alternar tarea
-    const alternarTarea = (tarea) => {
-      const nuevaTarea = { ...tarea, hecha: !tarea.hecha };
-      updateTarea(nuevaTarea)
-        .then(() => {
-          console.log("Estado actualizado: " + tarea.hecha);
-          tarea.hecha = !tarea.hecha;
-        })
-        .catch((error) => {
-          console.error(error);
-          $q.notify({
-            message: "Error al actualizar el estado de la tarea",
-            color: "red",
-          });
-        });
-    };
-    // Fin alternar tarea
-
-    // Editar tarea
-    const editarTarea = (tarea) => {
-      edicionTarea.value = true;
-      tareaEditando.value = tarea;
-
-      // Enfocar automáticamente el campo de edición
-      tareaInput.value && tareaInput.value.focus();
-    };
-    // Fin editar tarea
-
-    // Eliminar tarea
     const eliminarTarea = (tareaId) => {
       $q.dialog({
         title: "Confirmar",
@@ -229,7 +178,7 @@ export default {
               tareas.value = tareas.value.filter((t) => t.id !== tareaId);
               $q.notify({
                 message: "Tarea eliminada correctamente",
-                color: "red",
+                color: "positive",
               });
               console.log("Tarea eliminada");
             })
@@ -237,18 +186,33 @@ export default {
               console.error(error);
               $q.notify({
                 message: "Error al eliminar la tarea",
-                color: "red",
+                color: "negative",
               });
             });
         })
         .onCancel(() => {
           $q.notify({
             message: "Operación cancelada",
-            color: "red",
+            color: "negative",
           });
         });
     };
-    // Fin eliminar tarea
+
+    const alternarTarea = (tarea) => {
+      const nuevaTarea = { ...tarea, hecha: !tarea.hecha };
+      updateTarea(nuevaTarea)
+        .then(() => {
+          console.log(tarea.hecha);
+          tarea.hecha = !tarea.hecha;
+        })
+        .catch((error) => {
+          console.error(error);
+          $q.notify({
+            message: "Error al actualizar el estado de la tarea",
+            color: "negative",
+          });
+        });
+    };
 
     return {
       nuevaTarea,
@@ -256,8 +220,8 @@ export default {
       agregarTarea,
       eliminarTarea,
       alternarTarea,
-      editarTarea,
       tareaInput,
+      editarTareaPrompt,
     };
   },
 };
@@ -266,14 +230,19 @@ export default {
 <style lang="scss">
 html,
 body {
-  box-sizing: border-box;
+  height: 100%;
   margin: 0;
+  font-family: "Arial", sans-serif;
 }
 
 .todo-box {
-  background-color: $azul-claro;
-  width: 100%;
+  width: 80%;
+  max-width: 600px;
   height: 90vh;
+  text-align: left;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px $secondary;
 }
 
 .no-tasks {

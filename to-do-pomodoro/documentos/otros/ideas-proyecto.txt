@@ -1,0 +1,14 @@
+Ideas para el proyecto
+
+- Desarrollo de una aplicación web con el framework Vue.JS y generación de aplicación para móvil con Quasar. Comparativa de usabilidad y de las interfaces.
+
+- Implementación de una aplicación web con API RESTful como backend, framework moderno de frontend (Vue.JS) con una arquitectura por capas (modelo, persistencia, servicios, controlador y vista) ampliando lo visto en clase sobre autenticación externa (JWT, OAUTH2 …) mecanismos de prueba automáticos. En caso de hacerlo en grupo despliegue en la nube.
+
+- Gestión de tareas. Tipo: Kanban
+
+- Gestión de paneles de noticias. Tipo Xibo simplificado para la tutoría, por ejemplo, luego se puede incrustar en el aula virtual …
+
+- Desarrollo de una aplicación web para la gestión de citas médicas. Esta aplicación podría incluir módulos para la programación de citas, el seguimiento de historiales médicos y la gestión de recordatorios y alertas.
+
+- Desarrollo de una aplicación web para la gestión de proyectos. Esta aplicación podría incluir módulos para la asignación de tareas, seguimiento de avances y comunicación entre miembros del equipo.
+

@@ -3,9 +3,24 @@
   <div class="pomodoro-box">
     <!-- Contenedor de información -->
     <div class="info-container">
-      <div class="info-item">Pomodoro: {{ pomodoros }}</div>
-      <div class="info-item">Descansos cortos: {{ descansosCortos }}</div>
-      <div class="info-item">Descansos largos: {{ descansosLargos }}</div>
+      <div
+        :class="{ 'pomodoro-info': faseActual === 'pomodoro' }"
+        class="info-item"
+      >
+        Pomodoro: {{ pomodoros }}
+      </div>
+      <div
+        :class="{ 'descanso-corto-info': faseActual === 'descansoCorto' }"
+        class="info-item"
+      >
+        Descansos cortos: {{ descansosCortos }}
+      </div>
+      <div
+        :class="{ 'descanso-largo-info': faseActual === 'descansoLargo' }"
+        class="info-item"
+      >
+        Descansos largos: {{ descansosLargos }}
+      </div>
     </div>
 
     <!-- Contenedor del temporizador -->
@@ -18,7 +33,7 @@
       <!-- Botón para iniciar/detener el temporizador -->
       <q-btn
         @click="alternarTemporizador"
-        color="black"
+        color="primary"
         :icon="intervaloTemporizador ? 'pause' : 'play_arrow'"
         class="action-button"
         rounded
@@ -27,11 +42,37 @@
       <!-- Botón para reiniciar el temporizador -->
       <q-btn
         @click="resetearTemporizador"
-        color="black"
+        color="primary"
         icon="replay"
         class="action-button"
         rounded
       />
+    </div>
+
+    <!-- Contenedor de configuración -->
+    <div class="config-container">
+      <q-input
+        v-model="tiempoPomodoro"
+        label="Tiempo de Pomodoro (en minutos)"
+        type="number"
+        @input="actualizarTiempo"
+        min="1"
+      />
+      <q-input
+        v-model="tiempoDescansoCorto"
+        label="Tiempo de descanso corto (en minutos)"
+        type="number"
+        @input="actualizarTiempo"
+        min="1"
+      />
+      <q-input
+        v-model="tiempoDescansoLargo"
+        label="Tiempo de descanso largo (en minutos)"
+        type="number"
+        @input="actualizarTiempo"
+        min="1"
+      />
+      <q-btn @click="guardarCambios" color="primary" label="Guardar cambios" />
     </div>
   </div>
 </template>
@@ -39,28 +80,33 @@
 <script>
 import { defineComponent } from "vue";
 
-// Definición de constantes para los tiempos en segundos
-const TIEMPO_INICIAL = 2;
-const TIEMPO_DESCANSO_CORTO = 3;
-const TIEMPO_DESCANSO_LARGO = 9;
+const TIEMPO_INICIAL = 25;
+const TIEMPO_DESCANSO_CORTO = 5;
+const TIEMPO_DESCANSO_LARGO = 15;
 
 export default defineComponent({
   name: "PomodoroComponente",
 
   data() {
-    // Inicialización de las variables del componente
     return {
-      temporizador: TIEMPO_INICIAL,
+      temporizador: TIEMPO_INICIAL * 60,
       intervaloTemporizador: null,
       pomodoros: 0,
       descansosCortos: 0,
       descansosLargos: 0,
       faseActual: "pomodoro",
+      tiempoPomodoro: TIEMPO_INICIAL,
+      tiempoDescansoCorto: TIEMPO_DESCANSO_CORTO,
+      tiempoDescansoLargo: TIEMPO_DESCANSO_LARGO,
+      tiemposOriginales: {
+        tiempoPomodoro: TIEMPO_INICIAL,
+        tiempoDescansoCorto: TIEMPO_DESCANSO_CORTO,
+        tiempoDescansoLargo: TIEMPO_DESCANSO_LARGO,
+      },
     };
   },
 
   methods: {
-    // Función para alternar el temporizador entre iniciar y detener
     alternarTemporizador() {
       if (this.intervaloTemporizador) {
         clearInterval(this.intervaloTemporizador);
@@ -79,14 +125,12 @@ export default defineComponent({
       }
     },
 
-    // Función para resetear el temporizador
     resetearTemporizador() {
       clearInterval(this.intervaloTemporizador);
       this.intervaloTemporizador = null;
-      this.temporizador = TIEMPO_INICIAL;
+      this.temporizador = this.tiempoPomodoro * 60;
     },
 
-    // Función para formatear el tiempo
     formatoTiempo(tiempo) {
       const minutos = Math.floor(tiempo / 60);
       const segundos = tiempo % 60;
@@ -96,32 +140,64 @@ export default defineComponent({
       )}`;
     },
 
-    // Función para cambiar de fase (pomodoro, descanso corto, descanso largo)
     cambiarFase() {
       switch (this.faseActual) {
         case "pomodoro":
           this.pomodoros++;
           if (this.pomodoros % 4 === 0) {
             this.faseActual = "descansoLargo";
-            this.temporizador = TIEMPO_DESCANSO_LARGO;
+            this.temporizador = this.tiempoDescansoLargo * 60;
           } else {
             this.faseActual = "descansoCorto";
-            this.temporizador = TIEMPO_DESCANSO_CORTO;
+            this.temporizador = this.tiempoDescansoCorto * 60;
           }
           break;
         case "descansoCorto":
           this.descansosCortos++;
           this.faseActual = "pomodoro";
-          this.temporizador = TIEMPO_INICIAL;
+          this.temporizador = this.tiempoPomodoro * 60;
           break;
         case "descansoLargo":
           this.descansosLargos++;
           this.faseActual = "pomodoro";
-          this.temporizador = TIEMPO_INICIAL;
+          this.temporizador = this.tiempoPomodoro * 60;
           break;
         default:
           break;
       }
+    },
+
+    actualizarTiempo() {
+      this.tiempoPomodoro = Math.max(1, this.tiempoPomodoro);
+      this.tiempoDescansoCorto = Math.max(1, this.tiempoDescansoCorto);
+      this.tiempoDescansoLargo = Math.max(1, this.tiempoDescansoLargo);
+
+      // Actualizar el temporizador si está en la fase correspondiente
+      switch (this.faseActual) {
+        case "pomodoro":
+          this.temporizador = this.tiempoPomodoro * 60;
+          break;
+        case "descansoCorto":
+          this.temporizador = this.tiempoDescansoCorto * 60;
+          break;
+        case "descansoLargo":
+          this.temporizador = this.tiempoDescansoLargo * 60;
+          break;
+        default:
+          break;
+      }
+    },
+
+    guardarCambios() {
+      // Guardar los tiempos originales
+      this.tiemposOriginales = {
+        tiempoPomodoro: this.tiempoPomodoro,
+        tiempoDescansoCorto: this.tiempoDescansoCorto,
+        tiempoDescansoLargo: this.tiempoDescansoLargo,
+      };
+
+      // Actualizar el temporizador si está en la fase correspondiente
+      this.actualizarTiempo();
     },
   },
 });
@@ -130,26 +206,73 @@ export default defineComponent({
 <style lang="scss">
 html,
 body {
-  box-sizing: border-box;
+  height: 100%;
   margin: 0;
+  font-family: "Arial", sans-serif;
 }
 
 .pomodoro-box {
-  background-color: $azul-claro;
-  width: 100%;
-  text-align: center;
+  width: 80%;
+  max-width: 600px;
   height: 90vh;
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px $secondary;
+}
+
+.pomodoro-info {
+  background-color: $primary;
+  color: white;
+}
+
+.descanso-corto-info {
+  background-color: $primary;
+  color: white;
+}
+
+.descanso-largo-info {
+  background-color: $primary;
+  color: white;
 }
 
 .info-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 15%;
-  margin-top: 20%;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.button-container .action-button {
-  margin: 5%;
+.info-item {
+  border: 2px solid $primary;
+  padding: 2%;
+  border-radius: 10px;
+}
+
+.config-container {
+  margin-top: 20%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.q-input {
+  width: 100%;
+}
+
+.circle-container {
+  margin-bottom: 20px;
+}
+
+.circle-label {
+  font-size: 50px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
 }
 </style>
