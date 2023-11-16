@@ -1,12 +1,17 @@
 {
   "tareas": [
     {
-      "id": 2,
-      "titulo": "Prueba",
-      "hecha": false
+      "titulo": "Buenos días",
+      "hecha": false,
+      "id": 1
     },
     {
-      "titulo": "Nuevo",
+      "titulo": "Buenas tardes",
+      "hecha": false,
+      "id": 2
+    },
+    {
+      "titulo": "Buenas noches",
       "hecha": false,
       "id": 3
     }
