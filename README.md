@@ -1,6 +1,8 @@
 # PROYECTO
 - Quasar Framework
 
+- https://nodejs.org/en
+
 - npm install -g @quasar/cli
 - npm install -g json-server
 
