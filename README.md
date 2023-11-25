@@ -1,6 +1,13 @@
 # PROYECTO
 - Quasar Framework
 
+- https://nodejs.org/en
+
+- npm install
+
+- npm install -g @quasar/cli
+- npm install -g json-server
+
 - Para version Mac
 quasar dev -m electron
 
