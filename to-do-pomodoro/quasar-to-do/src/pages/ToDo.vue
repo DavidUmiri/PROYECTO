@@ -227,26 +227,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-html,
-body {
-  height: 100%;
-  margin: 0;
-  font-family: "Arial", sans-serif;
-}
-
-.todo-box {
-  width: 80%;
-  max-width: 600px;
-  height: 90vh;
-  text-align: left;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px $secondary;
-}
-
-.no-tasks {
-  text-align: center;
-  margin-top: 25%;
-}
-</style>

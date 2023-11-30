@@ -50,7 +50,7 @@
     </div>
 
     <!-- Contenedor de configuración -->
-    <div class="config-container">
+      <!-- <div class="config-container">
       <q-input
         v-model="tiempoPomodoro"
         label="Tiempo de Pomodoro (en minutos)"
@@ -73,7 +73,7 @@
         min="1"
       />
       <q-btn @click="guardarCambios" color="primary" label="Guardar cambios" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -203,76 +203,3 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
-html,
-body {
-  height: 100%;
-  margin: 0;
-  font-family: "Arial", sans-serif;
-}
-
-.pomodoro-box {
-  width: 80%;
-  max-width: 600px;
-  height: 90vh;
-  text-align: center;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px $secondary;
-}
-
-.pomodoro-info {
-  background-color: $primary;
-  color: white;
-}
-
-.descanso-corto-info {
-  background-color: $primary;
-  color: white;
-}
-
-.descanso-largo-info {
-  background-color: $primary;
-  color: white;
-}
-
-.info-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.info-item {
-  border: 2px solid $primary;
-  padding: 2%;
-  border-radius: 10px;
-}
-
-.config-container {
-  margin-top: 20%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.q-input {
-  width: 100%;
-}
-
-.circle-container {
-  margin-bottom: 20px;
-}
-
-.circle-label {
-  font-size: 50px;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-}
-</style>
