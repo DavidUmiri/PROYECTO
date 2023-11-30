@@ -8,6 +8,8 @@
 - npm install -g @quasar/cli
 - npm install -g json-server
 
+- https://quasar.dev/quasar-cli-webpack/developing-cordova-apps/preparation
+
 - Para version Mac
 quasar dev -m electron
 
