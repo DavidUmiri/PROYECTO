@@ -24,7 +24,7 @@
             <q-checkbox v-model="tarea.hecha" color="primary" />
           </q-item-section>
           <q-item-section @click="alternarTarea(tarea)">
-            <q-item-label :class="{ hecha: tarea.hecha }">{{
+            <q-item-label :class="{ 'task-item-done': tarea.hecha }">{{
               tarea.titulo
             }}</q-item-label>
           </q-item-section>
@@ -226,4 +226,3 @@ export default {
   },
 };
 </script>
-

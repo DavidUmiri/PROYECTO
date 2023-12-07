@@ -11,15 +11,16 @@ export default {
 </script>
 <template>
   <div class="app-container">
-    <ToDoComponente />
     <PomodoroComponente />
+    <ToDoComponente />
   </div>
 </template>
 
 <style lang="scss">
 body {
   font-family: "Arial", sans-serif;
-  background-color: #f4f4f4;
+  // background-color: #f4f4f4;
+  box-sizing: border-box;
   margin: 0;
   display: flex;
   justify-content: center;
@@ -29,7 +30,7 @@ body {
 
 .app-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
@@ -42,8 +43,13 @@ body {
   flex-direction: column;
   align-items: center;
   overflow-y: auto; 
-  max-height: 40vh;
+  max-height: 90vh;
 }
+
+.task-item-done {
+    text-decoration: line-through; 
+    color: rgba(128, 128, 128, 0.7); 
+  }
 
 .add-task-container {
   margin-bottom: 20px;
@@ -75,7 +81,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f8f8f8;
+  // background-color: #f8f8f8;
 }
 
 .info-container {
@@ -102,19 +108,27 @@ body {
 }
 
 .descanso-corto-info {
-  background-color: $secondary;
+  background-color: $primary;
   color: #fff;
 }
 
 .descanso-largo-info {
-  background-color: $accent;
-  color: #333;
+  background-color: $primary;
+  color: #fff;
 }
 
 .circle-label {
-  font-size: 24px;
-  color: #333;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: #fff;
+  background-color: $primary;
+  border-radius: 50%;
 }
+
 
 .button-container {
   display: flex;
@@ -122,7 +136,6 @@ body {
 }
 
 .action-button {
-  background-color: #4caf50;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -130,4 +143,11 @@ body {
   cursor: pointer;
   font-size: 16px;
 }
+
+@media screen and (max-width: 1024px) {
+  .todo-box {
+  max-height: 40vh;
+  }
+}
+
 </style>
