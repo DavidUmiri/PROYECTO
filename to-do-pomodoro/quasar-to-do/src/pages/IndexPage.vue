@@ -144,7 +144,7 @@ body {
   font-size: 16px;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
   .todo-box {
   max-height: 40vh;
   }
