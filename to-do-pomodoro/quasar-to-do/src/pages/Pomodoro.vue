@@ -80,7 +80,7 @@
 <script>
 import { defineComponent } from "vue";
 
-const TIEMPO_INICIAL = 25;
+const TIEMPO_INICIAL = 20;
 const TIEMPO_DESCANSO_CORTO = 5;
 const TIEMPO_DESCANSO_LARGO = 15;
 
