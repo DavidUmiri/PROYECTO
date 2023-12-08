@@ -21,7 +21,7 @@ quasar dev -m electron
 - platform: 'win32'
 quasar build -m electron
 
-- Para Android Studio ✅
+- Para Android (Android Studio) ✅
 json-server --watch db.json --host IP --port 3000
 quasar dev -m android --ide
 
