@@ -35,6 +35,7 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   max-height: 90vh;
+  width: 100%;
 }
 
 .todo-box {

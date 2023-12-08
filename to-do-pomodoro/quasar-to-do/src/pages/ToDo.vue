@@ -69,6 +69,8 @@ import {
   updateTarea,
 } from "../db/jsonServer";
 
+const TIMEOUT = 100
+
 export default {
   name: "ToDoComponente",
 
@@ -117,6 +119,7 @@ export default {
               $q.notify({
                 message: "Tarea editada correctamente",
                 color: "positive",
+                timeout: TIMEOUT
               });
             })
             .catch((error) => {
@@ -124,12 +127,14 @@ export default {
               $q.notify({
                 message: "Error al editar la tarea",
                 color: "negative",
+                timeout: TIMEOUT
               });
             });
         } else {
           $q.notify({
             message: "La tarea está vacía",
             color: "negative",
+            timeout: TIMEOUT
           });
         }
       });
@@ -147,6 +152,7 @@ export default {
             $q.notify({
               message: "Tarea agregada correctamente",
               color: "positive",
+              timeout: TIMEOUT
             });
           })
           .catch((error) => {
@@ -154,6 +160,7 @@ export default {
             $q.notify({
               message: "Error al agregar la tarea",
               color: "negative",
+              timeout: TIMEOUT
             });
           });
       } else {
@@ -161,6 +168,7 @@ export default {
         $q.notify({
           message: "La tarea está vacía",
           color: "negative",
+          timeout: TIMEOUT
         });
       }
     };
@@ -179,6 +187,7 @@ export default {
               $q.notify({
                 message: "Tarea eliminada correctamente",
                 color: "positive",
+                timeout: TIMEOUT
               });
               console.log("Tarea eliminada");
             })
@@ -187,6 +196,7 @@ export default {
               $q.notify({
                 message: "Error al eliminar la tarea",
                 color: "negative",
+                timeout: TIMEOUT
               });
             });
         })
@@ -194,6 +204,7 @@ export default {
           $q.notify({
             message: "Operación cancelada",
             color: "negative",
+            timeout: TIMEOUT
           });
         });
     };
@@ -210,6 +221,7 @@ export default {
           $q.notify({
             message: "Error al actualizar el estado de la tarea",
             color: "negative",
+            timeout: TIMEOUT
           });
         });
     };

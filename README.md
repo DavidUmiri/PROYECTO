@@ -1,30 +1,33 @@
 # PROYECTO
 - Quasar Framework
 
-- https://nodejs.org/en
+- Recursos
+https://quasar.dev
+https://nodejs.org/en
+https://quasar.dev/quasar-cli-webpack/developing-cordova-apps/preparation
 
-- npm install
+- Instalaciones
+npm install
+npm install -g @quasar/cli
+npm install -g json-server
+npm install -g cordova
 
-- npm install -g @quasar/cli
-- npm install -g json-server
-
-- https://quasar.dev/quasar-cli-webpack/developing-cordova-apps/preparation
-
-- Para version Mac
+- Para version Mac ✅
 quasar dev -m electron
 
-- Modificación para Windows
+- Modificación para Windows ✅
 quasar.config.js
 platform: 'win32'
 quasar build -m electron
 
 - Solucionar errores
-Eliminamos la carpeta de node_modules
+- Eliminamos la carpeta de node_modules
 npm install
 
-- Para Android Studio
-npm install -g cordova
-quasar dev -m cordova -T android
+- Para Android Studio ✅
+json-server --watch db.json --host IP --port 3000
+quasar dev -m android --ide
 
 - Para IOS
+- Se necesita Xcode que funciona solo con el sistema macOS 
 quasar dev -m cordova -T ios
