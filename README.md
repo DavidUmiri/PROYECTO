@@ -15,9 +15,10 @@ npm install -g cordova
 - Para version Mac ✅
 quasar dev -m electron
 
-- Modificación para Windows ✅
-quasar.config.js
-platform: 'win32'
+- Para Windows ✅
+- Modificación
+- quasar.config.js
+- platform: 'win32'
 quasar build -m electron
 
 - Solucionar errores

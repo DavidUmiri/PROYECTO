@@ -50,7 +50,7 @@
     </div>
 
     <!-- Contenedor de configuración -->
-      <!-- <div class="config-container">
+    <!-- <div class="config-container">
       <q-input
         v-model="tiempoPomodoro"
         label="Tiempo de Pomodoro (en minutos)"
@@ -80,9 +80,9 @@
 <script>
 import { defineComponent } from "vue";
 
-const TIEMPO_INICIAL = 20;
-const TIEMPO_DESCANSO_CORTO = 5;
-const TIEMPO_DESCANSO_LARGO = 15;
+const TIEMPO_INICIAL = 0.1;
+const TIEMPO_DESCANSO_CORTO = 0.1;
+const TIEMPO_DESCANSO_LARGO = 0.1;
 
 export default defineComponent({
   name: "PomodoroComponente",
@@ -118,7 +118,10 @@ export default defineComponent({
           } else {
             clearInterval(this.intervaloTemporizador);
             this.intervaloTemporizador = null;
-            this.$q.notify("¡Tiempo terminado!");
+            this.$q.notify({
+              message: "¡Tiempo terminado!",
+              color: "positive",
+            });
             this.cambiarFase();
           }
         }, 1000);
@@ -202,4 +205,3 @@ export default defineComponent({
   },
 });
 </script>
-
