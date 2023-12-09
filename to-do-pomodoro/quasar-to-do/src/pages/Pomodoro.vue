@@ -78,15 +78,20 @@
 </template>
 
 <script>
+// Importar la función defineComponent de Vue
 import { defineComponent } from "vue";
 
+// Constantes para los tiempos iniciales y de descanso
 const TIEMPO_INICIAL = 0.1;
 const TIEMPO_DESCANSO_CORTO = 0.1;
 const TIEMPO_DESCANSO_LARGO = 0.1;
 
+// Exportar el componente Vue
 export default defineComponent({
+  // Nombre del componente
   name: "PomodoroComponente",
 
+  // Datos del componente
   data() {
     return {
       temporizador: TIEMPO_INICIAL * 60,
@@ -106,7 +111,9 @@ export default defineComponent({
     };
   },
 
+  // Métodos del componente
   methods: {
+    // Alternar el temporizador entre iniciar/pausar
     alternarTemporizador() {
       if (this.intervaloTemporizador) {
         clearInterval(this.intervaloTemporizador);
@@ -128,12 +135,14 @@ export default defineComponent({
       }
     },
 
+    // Restablecer el temporizador
     resetearTemporizador() {
       clearInterval(this.intervaloTemporizador);
       this.intervaloTemporizador = null;
       this.temporizador = this.tiempoPomodoro * 60;
     },
 
+    // Formatear el tiempo en minutos y segundos
     formatoTiempo(tiempo) {
       const minutos = Math.floor(tiempo / 60);
       const segundos = tiempo % 60;
@@ -143,6 +152,7 @@ export default defineComponent({
       )}`;
     },
 
+    // Cambiar la fase entre pomodoro, descanso corto y descanso largo
     cambiarFase() {
       switch (this.faseActual) {
         case "pomodoro":
@@ -170,12 +180,12 @@ export default defineComponent({
       }
     },
 
+    // Actualizar el tiempo en el temporizador según la fase actual
     actualizarTiempo() {
       this.tiempoPomodoro = Math.max(1, this.tiempoPomodoro);
       this.tiempoDescansoCorto = Math.max(1, this.tiempoDescansoCorto);
       this.tiempoDescansoLargo = Math.max(1, this.tiempoDescansoLargo);
 
-      // Actualizar el temporizador si está en la fase correspondiente
       switch (this.faseActual) {
         case "pomodoro":
           this.temporizador = this.tiempoPomodoro * 60;
@@ -191,17 +201,18 @@ export default defineComponent({
       }
     },
 
+    // Guardar los cambios en los tiempos originales
     guardarCambios() {
-      // Guardar los tiempos originales
       this.tiemposOriginales = {
         tiempoPomodoro: this.tiempoPomodoro,
         tiempoDescansoCorto: this.tiempoDescansoCorto,
         tiempoDescansoLargo: this.tiempoDescansoLargo,
       };
 
-      // Actualizar el temporizador si está en la fase correspondiente
+      // Actualizar el temporizador según la fase actual
       this.actualizarTiempo();
     },
   },
 });
 </script>
+

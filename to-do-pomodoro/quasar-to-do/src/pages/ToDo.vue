@@ -60,6 +60,7 @@
 </template>
 
 <script>
+// Importando funciones necesarias desde módulos externos
 import { useQuasar } from "quasar";
 import { ref, onMounted } from "vue";
 import {
@@ -69,21 +70,29 @@ import {
   updateTarea,
 } from "../db/jsonServer";
 
-const TIMEOUT = 100
+// Constante para el tiempo de espera en notificaciones
+const TIMEOUT = 100;
 
+// Exportando el componente Vue
 export default {
+  // Nombre del componente
   name: "ToDoComponente",
 
+  // Función de configuración de Vue 3
   setup() {
+    // Utilizando funciones de Quasar y datos reactivos de Vue
     const $q = useQuasar();
     const nuevaTarea = ref("");
     const tareas = ref([]);
     const tareaInput = ref(null);
 
+    // Gancho del ciclo de vida: se ejecuta después de montar el componente
     onMounted(() => {
+      // Enfocar en el campo de entrada si existe
       tareaInput.value && tareaInput.value.focus();
     });
 
+    // Obtener tareas desde el servidor cuando el componente está montado
     getTareas()
       .then((response) => {
         tareas.value = response.data;
@@ -93,10 +102,73 @@ export default {
         console.error(error);
       });
 
+    // Función para agregar una tarea
     const agregarTarea = () => {
       agregarNuevaTarea();
     };
 
+    // Función para agregar una nueva tarea
+    const agregarNuevaTarea = () => {
+      // Verificar si la tarea no está vacía
+      if (nuevaTarea.value.trim() !== "") {
+        // Enviar una solicitud POST para agregar la tarea
+        postTarea({
+          titulo: nuevaTarea.value,
+          hecha: false,
+        })
+          .then((response) => {
+            // Actualizar el array de tareas con la nueva tarea
+            tareas.value.push(response.data);
+            nuevaTarea.value = "";
+            // Notificar al usuario sobre la adición exitosa
+            $q.notify({
+              message: "Tarea agregada correctamente",
+              color: "positive",
+              timeout: TIMEOUT,
+            });
+          })
+          .catch((error) => {
+            // Manejar errores y notificar al usuario
+            console.error(error);
+            $q.notify({
+              message: "Error al agregar la tarea",
+              color: "negative",
+              timeout: TIMEOUT,
+            });
+          });
+      } else {
+        // Notificar al usuario si la tarea está vacía
+        console.log("La tarea está vacía");
+        $q.notify({
+          message: "La tarea está vacía",
+          color: "negative",
+          timeout: TIMEOUT,
+        });
+      }
+    };
+
+    // Función para alternar el estado de completado de una tarea
+    const alternarTarea = (tarea) => {
+      // Crear un nuevo objeto de tarea con el estado de completado opuesto
+      const nuevaTarea = { ...tarea, hecha: !tarea.hecha };
+      // Enviar una solicitud PUT para actualizar el estado de completado de la tarea
+      updateTarea(nuevaTarea)
+        .then(() => {
+          console.log(tarea.hecha);
+          tarea.hecha = !tarea.hecha;
+        })
+        .catch((error) => {
+          // Manejar errores y notificar al usuario
+          console.error(error);
+          $q.notify({
+            message: "Error al actualizar el estado de la tarea",
+            color: "negative",
+            timeout: TIMEOUT,
+          });
+        });
+    };
+
+    // Función para editar una tarea mediante un cuadro de diálogo de entrada
     const editarTareaPrompt = (tarea) => {
       $q.dialog({
         title: "Editar tarea",
@@ -107,79 +179,51 @@ export default {
         },
         cancel: true,
         persistent: true,
-      }).onOk((data) => {
-        if (data.trim() !== "") {
-          updateTarea({
-            id: tarea.id,
-            titulo: data.trim(),
-            hecha: tarea.hecha,
-          })
-            .then(() => {
-              tarea.titulo = data.trim();
-              $q.notify({
-                message: "Tarea editada correctamente",
-                color: "positive",
-                timeout: TIMEOUT
-              });
-            })
-            .catch((error) => {
-              console.error(error);
-              $q.notify({
-                message: "Error al editar la tarea",
-                color: "negative",
-                timeout: TIMEOUT
-              });
-            });
-        } else {
-          $q.notify({
-            message: "La tarea está vacía",
-            color: "negative",
-            timeout: TIMEOUT
-          });
-        }
       })
-      .onCancel(() => {
+        .onOk((data) => {
+          if (data.trim() !== "") {
+            // Enviar una solicitud PUT para actualizar la tarea
+            updateTarea({
+              id: tarea.id,
+              titulo: data.trim(),
+              hecha: tarea.hecha,
+            })
+              .then(() => {
+                tarea.titulo = data.trim();
+                $q.notify({
+                  message: "Tarea editada correctamente",
+                  color: "positive",
+                  timeout: TIMEOUT,
+                });
+              })
+              .catch((error) => {
+                // Manejar errores y notificar al usuario
+                console.error(error);
+                $q.notify({
+                  message: "Error al editar la tarea",
+                  color: "negative",
+                  timeout: TIMEOUT,
+                });
+              });
+          } else {
+            // Notificar al usuario si la tarea está vacía
+            $q.notify({
+              message: "La tarea está vacía",
+              color: "negative",
+              timeout: TIMEOUT,
+            });
+          }
+        })
+        .onCancel(() => {
           $q.notify({
             message: "Operación cancelada",
             color: "negative",
-            timeout: TIMEOUT
+            timeout: TIMEOUT,
           });
         });
     };
 
-    const agregarNuevaTarea = () => {
-      if (nuevaTarea.value.trim() !== "") {
-        postTarea({
-          titulo: nuevaTarea.value,
-          hecha: false,
-        })
-          .then((response) => {
-            tareas.value.push(response.data);
-            nuevaTarea.value = "";
-            $q.notify({
-              message: "Tarea agregada correctamente",
-              color: "positive",
-              timeout: TIMEOUT
-            });
-          })
-          .catch((error) => {
-            console.error(error);
-            $q.notify({
-              message: "Error al agregar la tarea",
-              color: "negative",
-              timeout: TIMEOUT
-            });
-          });
-      } else {
-        console.log("La tarea está vacía");
-        $q.notify({
-          message: "La tarea está vacía",
-          color: "negative",
-          timeout: TIMEOUT
-        });
-      }
-    };
-
+    // Función para eliminar una tarea mediante un cuadro de diálogo de confirmación
     const eliminarTarea = (tareaId) => {
       $q.dialog({
         title: "Confirmar",
@@ -188,22 +232,26 @@ export default {
         persistent: true,
       })
         .onOk(() => {
+          // Enviar una solicitud DELETE para eliminar la tarea
           deleteTarea(tareaId)
             .then(() => {
+              // Filtrar las tareas para excluir la tarea eliminada
               tareas.value = tareas.value.filter((t) => t.id !== tareaId);
+              // Notificar al usuario sobre la eliminación exitosa
               $q.notify({
                 message: "Tarea eliminada correctamente",
                 color: "positive",
-                timeout: TIMEOUT
+                timeout: TIMEOUT,
               });
               console.log("Tarea eliminada");
             })
             .catch((error) => {
+              // Manejar errores y notificar al usuario
               console.error(error);
               $q.notify({
                 message: "Error al eliminar la tarea",
                 color: "negative",
-                timeout: TIMEOUT
+                timeout: TIMEOUT,
               });
             });
         })
@@ -211,28 +259,12 @@ export default {
           $q.notify({
             message: "Operación cancelada",
             color: "negative",
-            timeout: TIMEOUT
+            timeout: TIMEOUT,
           });
         });
     };
 
-    const alternarTarea = (tarea) => {
-      const nuevaTarea = { ...tarea, hecha: !tarea.hecha };
-      updateTarea(nuevaTarea)
-        .then(() => {
-          console.log(tarea.hecha);
-          tarea.hecha = !tarea.hecha;
-        })
-        .catch((error) => {
-          console.error(error);
-          $q.notify({
-            message: "Error al actualizar el estado de la tarea",
-            color: "negative",
-            timeout: TIMEOUT
-          });
-        });
-    };
-
+    // Devolver las variables y funciones necesarias para el componente
     return {
       nuevaTarea,
       tareas,
