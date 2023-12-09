@@ -137,7 +137,14 @@ export default {
             timeout: TIMEOUT
           });
         }
-      });
+      })
+      .onCancel(() => {
+          $q.notify({
+            message: "Operación cancelada",
+            color: "negative",
+            timeout: TIMEOUT
+          });
+        });
     };
 
     const agregarNuevaTarea = () => {

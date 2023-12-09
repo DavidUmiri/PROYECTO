@@ -1,3 +1,9 @@
 {
-  "tareas": []
+  "tareas": [
+    {
+      "titulo": "Primera tarea",
+      "hecha": false,
+      "id": 1
+    }
+  ]
 }
