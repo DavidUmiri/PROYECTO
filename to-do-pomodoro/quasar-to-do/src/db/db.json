@@ -1,9 +1,19 @@
 {
   "tareas": [
     {
-      "id": 2,
-      "titulo": "Segunda actually",
-      "hecha": true
+      "titulo": "Primera tarea",
+      "hecha": false,
+      "id": 1
+    },
+    {
+      "titulo": "Segunda tarea",
+      "hecha": false,
+      "id": 2
+    },
+    {
+      "titulo": "Tercera tarea",
+      "hecha": false,
+      "id": 3
     }
   ]
 }
