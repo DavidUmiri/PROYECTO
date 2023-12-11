@@ -4,11 +4,6 @@
       "titulo": "Primera",
       "hecha": false,
       "id": 1
-    },
-    {
-      "titulo": "Segunda",
-      "hecha": true,
-      "id": 2
     }
   ]
 }
