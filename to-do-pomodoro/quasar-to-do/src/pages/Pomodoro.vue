@@ -86,6 +86,9 @@ const TIEMPO_INICIAL = 0.1;
 const TIEMPO_DESCANSO_CORTO = 0.1;
 const TIEMPO_DESCANSO_LARGO = 0.1;
 
+// Constante para el tiempo de espera en notificaciones
+const TIMEOUT = 100;
+
 // Exportar el componente Vue
 export default defineComponent({
   // Nombre del componente
@@ -128,6 +131,7 @@ export default defineComponent({
             this.$q.notify({
               message: "¡Tiempo terminado!",
               color: "positive",
+              timeout: TIMEOUT,
             });
             this.cambiarFase();
           }
